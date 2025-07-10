@@ -22,7 +22,7 @@ services:
     depends_on:
       - php
 
-  node:
+  vite:
     image: node:20.11.1
     container_name: vite
     working_dir: /app
