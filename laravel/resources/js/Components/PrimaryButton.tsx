@@ -7,6 +7,7 @@ export default function PrimaryButton({
     ...props
 }: ButtonHTMLAttributes<HTMLButtonElement>) {
     return (
+        <div className="text-center">
         <button
             {...props}
             className={
@@ -17,6 +18,7 @@ export default function PrimaryButton({
             disabled={disabled}
         >
             {children}
-        </button>
+            </button>
+            </div>
     );
 }
