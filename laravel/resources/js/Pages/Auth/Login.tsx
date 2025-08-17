@@ -1,4 +1,3 @@
-import Checkbox from '@/Components/Checkbox';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -74,7 +73,7 @@ export default function Login({
 
                 <div className="mt-4 block">
                     <label className="flex items-center">
-                        <Checkbox
+                        {/* <Checkbox
                             name="remember"
                             checked={data.remember}
                             onChange={(e) =>
@@ -83,7 +82,7 @@ export default function Login({
                                     (e.target.checked || false) as false,
                                 )
                             }
-                        />
+                        /> */}
                         <span className="ms-2 text-sm text-gray-600">
                             Remember me
                         </span>

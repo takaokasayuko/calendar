@@ -1,121 +1,69 @@
-import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import PrimaryButton from '@/Components/PrimaryButton';
 import GuestLayout from '@/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Link } from '@inertiajs/react';
+import Header from '@/Components/Header';
+import { useForm } from '@inertiajs/react'
 import { FormEventHandler } from 'react';
 
 export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-    });
+	const { data, setData, post, processing, errors, reset } = useForm({
+		name: '',
+		email: '',
+		password: '',
+		password_confirmation: '',
+	})
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
+	const submit: FormEventHandler = (e) => {
+		e.preventDefault();
+		post(route('register'), {
+			onFinish: () => reset('password', 'password_confirmation')
+		});
+	};
 
-        post(route('register'), {
-            onFinish: () => reset('password', 'password_confirmation'),
-        });
-    };
+	return (
+		<>
+			<Header />
+			<GuestLayout title="会員登録">
+				<div className="w-full  flex flex-col items-center">
+					<form onSubmit={submit} className="w-full  sm:w-96 md:w-[500px]">
 
-    return (
-        <GuestLayout>
-            <Head title="Register" />
 
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
+						<div className="m-3 ">
+							<InputLabel htmlFor="name">お名前</InputLabel>
+							<TextInput field="name" value={data.name} setData={setData} />
+							<p>{errors.name}</p>
+						</div>
 
-                    <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="name"
-                        isFocused={true}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                    />
+						<div className="m-3">
+							<InputLabel htmlFor="email">メールアドレス</InputLabel>
+							<TextInput field="email" value={data.email} setData={setData} />
+							<p>{errors.email}</p>
+						</div>
 
-                    <InputError message={errors.name} className="mt-2" />
-                </div>
+						<div className="m-3">
+							<InputLabel htmlFor="password">パスワード</InputLabel>
+							<TextInput field="password" value={data.password} setData={setData} />
+							<p>{errors.password}</p>
+						</div>
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="email" value="Email" />
+						<div className="m-3">
+							<InputLabel htmlFor="password_confirmation">パスワード確認</InputLabel>
+							<TextInput field="password_confirmation" value={data.password_confirmation} setData={setData}/>
+							<p>{errors.password_confirmation}</p>
+						</div>
 
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                    />
+						<PrimaryButton disabled={processing}>登録</PrimaryButton>
 
-                    <InputError message={errors.email} className="mt-2" />
-                </div>
+					</form>
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+					<div className="text-center mt-4">
+						<Link href={route('login')} className="text-sky-600 hover:text-sky-300">ログインはこちら</Link>
+					</div>
 
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) => setData('password', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div className="mt-4">
-                    <InputLabel
-                        htmlFor="password_confirmation"
-                        value="Confirm Password"
-                    />
-
-                    <TextInput
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        value={data.password_confirmation}
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                        onChange={(e) =>
-                            setData('password_confirmation', e.target.value)
-                        }
-                        required
-                    />
-
-                    <InputError
-                        message={errors.password_confirmation}
-                        className="mt-2"
-                    />
-                </div>
-
-                <div className="mt-4 flex items-center justify-end">
-                    <Link
-                        href={route('login')}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                        Already registered?
-                    </Link>
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Register
-                    </PrimaryButton>
-                </div>
-            </form>
-        </GuestLayout>
-    );
+				</div>
+			</GuestLayout>
+		</>
+	)
 }
