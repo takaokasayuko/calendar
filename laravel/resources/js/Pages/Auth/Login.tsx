@@ -6,6 +6,7 @@ import { Link } from '@inertiajs/react';
 import Header from '@/Components/Header';
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler } from 'react';
+import InputError from '@/Components/InputError';
 
 export default function Register() {
 	const { data, setData, post, processing, errors, reset } = useForm({
@@ -30,13 +31,13 @@ export default function Register() {
 						<div className="m-3">
 							<InputLabel htmlFor="email">メールアドレス</InputLabel>
 							<TextInput field="email" value={data.email} setData={setData} />
-							<p>{errors.email}</p>
+							<InputError message={errors.email} />
 						</div>
 
 						<div className="m-3">
 							<InputLabel htmlFor="password">パスワード</InputLabel>
 							<TextInput field="password" value={data.password} setData={setData} />
-							<p>{errors.password}</p>
+							<InputError message={errors.password} />
 						</div>
 
 						<PrimaryButton disabled={processing}>ログイン</PrimaryButton>

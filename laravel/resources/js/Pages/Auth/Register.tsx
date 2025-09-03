@@ -6,6 +6,7 @@ import { Link } from '@inertiajs/react';
 import Header from '@/Components/Header';
 import { useForm } from '@inertiajs/react'
 import { FormEventHandler } from 'react';
+import InputError from '@/Components/InputError';
 
 export default function Register() {
 	const { data, setData, post, processing, errors, reset } = useForm({
@@ -33,25 +34,24 @@ export default function Register() {
 						<div className="m-3 ">
 							<InputLabel htmlFor="name">お名前</InputLabel>
 							<TextInput field="name" value={data.name} setData={setData} />
-							<p>{errors.name}</p>
+							<InputError message={errors.name} />
 						</div>
 
 						<div className="m-3">
 							<InputLabel htmlFor="email">メールアドレス</InputLabel>
 							<TextInput field="email" value={data.email} setData={setData} />
-							<p>{errors.email}</p>
+							<InputError message={errors.email} />
 						</div>
 
 						<div className="m-3">
 							<InputLabel htmlFor="password">パスワード</InputLabel>
 							<TextInput field="password" value={data.password} setData={setData} />
-							<p>{errors.password}</p>
+							<InputError message={errors.password} />
 						</div>
 
 						<div className="m-3">
 							<InputLabel htmlFor="password_confirmation">パスワード確認</InputLabel>
 							<TextInput field="password_confirmation" value={data.password_confirmation} setData={setData}/>
-							<p>{errors.password_confirmation}</p>
 						</div>
 
 						<PrimaryButton disabled={processing}>登録</PrimaryButton>
