@@ -25,5 +25,15 @@
         "tailwindcss": "^3.2.1",
         "typescript": "^5.0.2",
         "vite": "^6.2.4"
+    },
+    "dependencies": {
+        "@fullcalendar/daygrid": "^6.1.19",
+        "@fullcalendar/interaction": "^6.1.19",
+        "@fullcalendar/list": "^6.1.19",
+        "@fullcalendar/multimonth": "^6.1.19",
+        "@fullcalendar/react": "^6.1.19",
+        "@fullcalendar/scrollgrid": "^6.1.19",
+        "@fullcalendar/timegrid": "^6.1.19",
+        "dayjs": "^1.11.18"
     }
 }
