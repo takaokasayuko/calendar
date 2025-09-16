@@ -34,28 +34,51 @@ function Calendar() {
     }
   });
 
-  const { data, setData, errors, post, reset } = useForm({
+  const { setData, errors, post, delete:destroy } = useForm({
     title: '',
     start: '',
-    end:'',
+    end: '',
   });
 
-  const handleDateSelect = (info: DateSelectArg) => {
+  const handleDateSelect = (selectInfo: DateSelectArg) => {
     const title = prompt("予定を入力してください");
-    const calendarApi = info.view.calendar;
+    const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
 
     if (title) {
       setData({
         title,
-        start: info.startStr,
-        end: info.endStr,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
       });
       post(route('calendar.store'), {
         onSuccess: () => location.reload(),
       });
     }
   };
+
+  const handleEventClick = (clickInfo: EventClickArg) => {
+
+    if (confirm(`この予定を削除しますか？: '${clickInfo.event.title}'`)) {
+      destroy(route('calendar.destroy', clickInfo.event.id), {
+        onSuccess: () => location.reload()
+      });
+    } else {
+      const newTitle = prompt(`新しい予定を入力してください。${clickInfo.event.title}`);
+
+      if (newTitle && newTitle !== clickInfo.event.title) {
+
+        setData('title', newTitle);
+        router.put(route('calendar.update', clickInfo.event.id), {
+          title: newTitle,
+        }, {
+          onSuccess: () => {
+            clickInfo.event.setProp('title', newTitle);
+          },
+        });
+      }
+    }
+  }
 
     return (
       <div className="p-4">
@@ -84,11 +107,12 @@ function Calendar() {
           moreLinkText={(num) => `+他 ${num} 件`}
           select={handleDateSelect}
           events={currentEvents}
+          eventClick={handleEventClick}
           height="auto"
         />
       </div>
     );
   };
 
-export default Calendar;
 
+export default Calendar;

@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CalendarAddRequest;
+use App\Http\Requests\CalendarUpdateRequest;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Request;
+// use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Calendar;
 use Carbon\Carbon;
 
-// use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
@@ -34,6 +35,21 @@ class CalendarController extends Controller
             'start' => $start,
             'end' => $end
         ]);
+        return back();
+    }
+
+    public function update(CalendarUpdateRequest $request, $calendar): RedirectResponse
+    {
+        Calendar::find($calendar)->update($request->only([
+            'title'
+        ]));
+
+        return back();
+    }
+
+    public function destroy($calendar): RedirectResponse
+    {
+        Calendar::find($calendar)->delete();
         return back();
     }
 }
