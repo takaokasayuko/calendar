@@ -34,7 +34,7 @@ function Calendar() {
     }
   });
 
-  const { setData, errors, post } = useForm({
+  const { setData, errors, post, delete:destroy } = useForm({
     title: '',
     start: '',
     end: '',
@@ -58,18 +58,25 @@ function Calendar() {
   };
 
   const handleEventClick = (clickInfo: EventClickArg) => {
-    const newTitle = prompt(`新しい予定を入力してください。${clickInfo.event.title}`);
+
+    if (confirm(`この予定を削除しますか？: '${clickInfo.event.title}'`)) {
+      destroy(route('calendar.destroy', clickInfo.event.id), {
+        onSuccess: () => location.reload()
+      });
+    } else {
+      const newTitle = prompt(`新しい予定を入力してください。${clickInfo.event.title}`);
 
       if (newTitle && newTitle !== clickInfo.event.title) {
 
-      setData('title', newTitle);
-      router.put(route('calendar.update', clickInfo.event.id), {
-      title: newTitle,
-    }, {
-      onSuccess: () => {
-        clickInfo.event.setProp('title', newTitle);
-      },
-    });
+        setData('title', newTitle);
+        router.put(route('calendar.update', clickInfo.event.id), {
+          title: newTitle,
+        }, {
+          onSuccess: () => {
+            clickInfo.event.setProp('title', newTitle);
+          },
+        });
+      }
     }
   }
 

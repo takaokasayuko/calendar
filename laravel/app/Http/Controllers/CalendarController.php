@@ -46,4 +46,10 @@ class CalendarController extends Controller
 
         return back();
     }
+
+    public function destroy($calendar): RedirectResponse
+    {
+        Calendar::find($calendar)->delete();
+        return back();
+    }
 }
